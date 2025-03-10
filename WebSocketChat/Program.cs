@@ -12,11 +12,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Configurar o sistema de logs
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole(); // Adiciona logs no console
-
-builder.Services.AddAuthenticationWebSockets(builder.Configuration);
-
+var key = builder.Services.ConfigureServices(builder.Configuration);
+builder.Services.AddAuthenticationWebSockets(key);
 builder.Services.AddAuthorization();
-builder.Services.AddFeatureWebSocketChat();
+builder.Services.AddFeatureWebSocketChat(builder.Configuration);
 builder.Services.AddWebCors();
 
 var app = builder.Build();
@@ -31,7 +30,6 @@ app.AddWebSocketChat();
 app.MapPost("/login", (LoginRequest request) =>
 {
     Console.WriteLine($"User: {request.Email}, Password: {request.Password}");
-    var key = builder.Configuration.GetConnectionString("Key")!.Decode();
     // Verifique as credenciais do usuário (exemplo simples)
     if (request.Email == "user" && request.Password == "password")
     {

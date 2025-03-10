@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  app:
+    image: ubuntu:latest  # Ou outro ambiente que suporte SQLite
+    container_name: sqlite_container
+    volumes:
+      - ./data:/data  # Persistência do banco de dados
+    command: ["sleep", "infinity"]  # Mantém o contêiner rodando
+
+volumes:
+  data:

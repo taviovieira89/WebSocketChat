@@ -2,11 +2,18 @@ using System.Net.WebSockets;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.EntityFrameworkCore; // Add these lines at the top of each file that uses DB Contexts, wherever they are declared in your codebase (if not already there). This will ensure all references to this package exist and can be resolved correctly by NuGet Package Manager or .NET CLI tools if necessary
+
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddFeatureWebSocketChat(this IServiceCollection services)
+    public static IServiceCollection AddFeatureWebSocketChat(this IServiceCollection services, IConfiguration configuration)
     {
+        // Configuração do banco de dados SQLite
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
+        services.AddDbContext<WebSocketDb>(options =>
+            options.UseSqlite(connectionString));
+
         services.AddSingleton<WebSocketConnectionManager>();
         return services;
     }
@@ -25,10 +32,14 @@ public static class DependencyInjection
         return services;
     }
 
-    public static IServiceCollection AddAuthenticationWebSockets(this IServiceCollection services, IConfiguration configuration)
+    public static string ConfigureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        var key = configuration.GetConnectionString("Key").Decode();
+        var key = configuration["Key"];
+        return key!;
+    }
 
+    public static IServiceCollection AddAuthenticationWebSockets(this IServiceCollection services, string key)
+    {
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                             {
