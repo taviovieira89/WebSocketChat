@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "H59IYx3EOxAnfeGnffpNBNHKEP97pvsNjUx47g94qA8=",
+  "Source": "WebSocketChat",
+  "BasePath": "_content/WebSocketChat",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
