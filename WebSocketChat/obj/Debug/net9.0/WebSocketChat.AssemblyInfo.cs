@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WebSocketChat")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+914788d39742ca39df56dfb3722cf79c423f8a92")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+18da423201ca802c6f8d30d16054282fed6a93f0")]
 [assembly: System.Reflection.AssemblyProductAttribute("WebSocketChat")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WebSocketChat")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
