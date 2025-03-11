@@ -11,7 +11,7 @@ function Login() {
     const handleLogin = async () => {
         try {
             // Simula uma requisição de login
-            const response = await fetch('http://localhost:5074/login', {
+            const response = await fetch('http://localhost:5074/api/User/Login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password }),

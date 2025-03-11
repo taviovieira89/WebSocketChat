@@ -3,7 +3,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore; // Add these lines at the top of each file that uses DB Contexts, wherever they are declared in your codebase (if not already there). This will ensure all references to this package exist and can be resolved correctly by NuGet Package Manager or .NET CLI tools if necessary
-
+using System.Reflection;
 
 public static class DependencyInjection
 {
@@ -15,6 +15,9 @@ public static class DependencyInjection
             options.UseSqlite(connectionString));
 
         services.AddSingleton<WebSocketConnectionManager>();
+        // Adicionando o MediatR e registrando os handlers automaticamente
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+        services.AddScoped<ICreateUserUseCase, CreateUserUseCase>();
         return services;
     }
 

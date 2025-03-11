@@ -46,6 +46,10 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "dependencies": {
+            "MediatR.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
               "version": "[9.0.2, )"
@@ -63,6 +67,14 @@
             "Microsoft.IdentityModel.Tokens": {
               "target": "Package",
               "version": "[8.6.1, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[7.3.1, )"
+            },
+            "mediatr": {
+              "target": "Package",
+              "version": "[12.4.1, )"
             }
           },
           "imports": [

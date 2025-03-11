@@ -6,9 +6,16 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+
 
 var builder = WebApplication.CreateBuilder(args);
-
+// Configuração de serviços
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebScoket API", Version = "v1" });
+});
 // Configurar o sistema de logs
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole(); // Adiciona logs no console
@@ -17,6 +24,8 @@ builder.Services.AddAuthenticationWebSockets(key);
 builder.Services.AddAuthorization();
 builder.Services.AddFeatureWebSocketChat(builder.Configuration);
 builder.Services.AddWebCors();
+// Registrar controllers
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -27,25 +36,12 @@ app.UseWebSockets();
 
 app.AddWebSocketChat();
 
-app.MapPost("/login", (LoginRequest request) =>
+if (app.Environment.IsDevelopment())
 {
-    Console.WriteLine($"User: {request.Email}, Password: {request.Password}");
-    // Verifique as credenciais do usuário (exemplo simples)
-    if (request.Email == "user" && request.Password == "password")
-    {
-        var token = new JwtSecurityToken(
-            issuer: "ChatBackend",
-            audience: "ChatFrontend",
-            claims: new[] { new Claim(ClaimTypes.Name, request.Email) },
-            expires: DateTime.UtcNow.AddHours(1),
-            signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key!)), SecurityAlgorithms.HmacSha256)
-        );
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
-        return Results.Ok(new { Token = new JwtSecurityTokenHandler().WriteToken(token) });
-    }
-
-    return Results.Unauthorized();
-});
-
+app.MapControllers();
 
 app.Run();

@@ -1,13 +1,13 @@
-public class userUseCase : IuserUseCase
+public class CreateUserUseCase : ICreateUserUseCase
 {
     private readonly WebSocketDb _db;
 
-    public userUseCase(WebSocketDb db)
+    public CreateUserUseCase(WebSocketDb db)
     {
         _db = db;
     }
 
-    public async Task<Result<Guid>> Execute(UserDto Value)
+    public async Task<Result<Guid>> Execute(UserDto Value, CancellationToken cancellationToken)
     {
         var userResult = User.Create(Value.Email, Value.Password);
 
@@ -19,7 +19,7 @@ public class userUseCase : IuserUseCase
         var user = userResult.Value;
         _db.Users.Add(user);
 
-        await _db.SaveChangesAsync();
+        await _db.SaveChangesAsync(cancellationToken);
 
         return Result<Guid>.Success(user.IdUser);
     }
